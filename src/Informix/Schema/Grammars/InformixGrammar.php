@@ -865,7 +865,7 @@ class InformixGrammar extends BaseSchemaGrammar
      * @param  \Illuminate\Database\Query\Expression|string  $table
      * @return string
      */
-    public function wrapTable($table)
+    public function wrapTable($table,$prefix = null)
     {
         if ($table instanceof Blueprint && $table->temporary) {
             $this->setTablePrefix('#');

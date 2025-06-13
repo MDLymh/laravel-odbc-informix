@@ -9,12 +9,20 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Mdlymh\\LaravelOdbcInformix\\": "src/"
+            "Mdlymh\\Odbc\\": "src/"
         }
     },
     "authors": [
         {
             "name": "mdlymh"
         }
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MDLymh\\Odbc\\ODBCServiceProvider"
+            ]
+        }
+    }
+
 }
