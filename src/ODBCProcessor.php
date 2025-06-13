@@ -1,6 +1,6 @@
 <?php
 
-namespace Mkrohn\Odbc;
+namespace MDLymh\Odbc;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Processors\Processor;

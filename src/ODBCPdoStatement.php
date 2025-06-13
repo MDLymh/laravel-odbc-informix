@@ -1,6 +1,6 @@
 <?php
 
-namespace Mkrohn\Odbc;
+namespace MDLymh\Odbc;
 
 use PDOStatement;
 
@@ -54,29 +54,33 @@ class ODBCPdoStatement extends PDOStatement
         $this->params = [];
     }
 
-    public function fetchAll($how = NULL, $class_name = NULL, $ctor_args = NULL)
+    public function fetchAll(int $mode = \PDO::FETCH_DEFAULT, mixed ...$args): array
     {
+        odbc_execute($this->statement, $this->params);
+        $this->params = [];
+
         $records = [];
-        $stored_proc = false;
 
-        if (strlen($this->query) > 17)
-        {
-            if ((substr($this->query, 0, 17)) == 'EXECUTE PROCEDURE')
-            {
-                // MK: if it's a stored procedure (in uppercase), column names may not be included
-                $stored_proc = true;
-            }
-        }
+        switch ($mode) {
+            case \PDO::FETCH_CLASS:
+                $class  = $args[0] ?? 'stdClass';
+                $ctor   = $args[1] ?? [];
+                while ($row = odbc_fetch_array($this->statement)) {
+                    $records[] = (new \ReflectionClass($class))
+                                    ->newInstanceArgs(array_merge($ctor, [$row]));
+                }
+                break;
 
-        if (! $stored_proc)
-        {
-            while ($record = $this->fetch()) {
-                $records[] = $record;
-            }
-        }
-        else
-        {
-            $records[] = $this->fetch_into($records);
+            case \PDO::FETCH_OBJ:
+                while ($row = odbc_fetch_object($this->statement)) {
+                    $records[] = $row;
+                }
+                break;
+
+            default: // FETCH_ASSOC / FETCH_BOTH …
+                while ($row = odbc_fetch_array($this->statement)) {
+                    $records[] = $row;
+                }
         }
 
         return $records;

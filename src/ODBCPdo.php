@@ -1,6 +1,6 @@
 <?php
 
-namespace Mkrohn\Odbc;
+namespace MDLymh\Odbc;
 
 use Exception;
 use PDO;

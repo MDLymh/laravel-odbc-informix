@@ -1,6 +1,6 @@
 <?php
 
-namespace Mkrohn\Odbc;
+namespace MDLymh\Odbc;
 
 use Illuminate\Database\Connectors\Connector;
 use Illuminate\Database\Connectors\ConnectorInterface;

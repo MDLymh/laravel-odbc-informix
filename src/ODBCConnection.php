@@ -1,6 +1,6 @@
 <?php
 
-namespace Mkrohn\Odbc;
+namespace MDLymh\Odbc;
 
 use Illuminate\Database\Connection;
 
@@ -10,7 +10,7 @@ class ODBCConnection extends Connection
     {
         $queryGrammar = $this->getConfig('options.grammar.query');
         if ($queryGrammar)
-            return new $queryGrammar;
+            return new $queryGrammar($this);
         return parent::getDefaultQueryGrammar();
     }
 

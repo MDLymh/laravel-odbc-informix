@@ -1,6 +1,6 @@
 <?php
 
-namespace Mkrohn\Odbc;
+namespace MDLymh\Odbc;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Query\Builder;

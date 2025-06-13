@@ -1,30 +1,30 @@
 ## ODBC integration for Laravel Framework using IBM Informix Database
 This integration allows the use of <b>odbc_*</b> php function with Laravel framework instead of PDO.<br>
 It emulates PDO class used by Laravel.<br>
-This is a fork of the project abram/laravel-odbc, but customized for informix.
+This is a fork of the project mkrohn/laravel-odbc, but customized for informix.
 
 
 ### # How to install
-> `composer require mkrohn/laravel-odbc-informix` To add source in your project
+> `composer require mdlymh/laravel-odbc-informix` To add source in your project
 
 ### # Usage Instructions
 It's very simple to configure:
 
 **1) Add database to database.php file**
 ```PHP
-'odbc-connection-name' => [
+'odbc-informix-name' => [
     'driver' => 'odbc',
-    'dsn' => 'OdbcConnectionName',
-    'database' => 'DatabaseName',
+    'dsn' => env('DB_DSN', 'informix'),
+    'database' => env('DB_NAME', 'laravel'),
     'odbc' => true,
-    'host' => '127.0.0.1',
-    'username' => 'username',
-    'password' => 'password'
+    'host' => env('DB_HOST','127.0.0.1'),
+    'username' => env('DB_USER','informix'),
+    'password' => env('DB_PASS','')
     'options' => [
-        'processor' => Mkrohn\Odbc\Informix\Query\Processors\InformixProcessor::class,
+        'processor' => MDLymh\Odbc\Informix\Query\Processors\InformixProcessor::class,
         'grammar' => [
-            'query' => Mkrohn\Odbc\Informix\Query\Grammars\InformixGrammar::class,
-            'schema' => Mkrohn\Odbc\Informix\Schema\Grammars\InformixGrammar::class
+            'query' => MDLymh\Odbc\Informix\Query\Grammars\InformixGrammar::class,
+            'schema' => MDLymh\Odbc\Informix\Schema\Grammars\InformixGrammar::class
         ]
     ]
 ]
