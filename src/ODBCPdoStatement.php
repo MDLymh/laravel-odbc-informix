@@ -9,6 +9,7 @@ class ODBCPdoStatement extends PDOStatement
     protected $query;
     protected $params = [];
     protected $statement;
+    protected int $fetchMode = \PDO::FETCH_BOTH;
 
     public function __construct($conn, $query)
     {
@@ -48,6 +49,12 @@ class ODBCPdoStatement extends PDOStatement
         $this->params[$param] = $val;
     }
 
+    public function setFetchMode(int $mode, mixed ...$args): bool
+    {
+        $this->fetchMode = $mode;
+        return true;
+    }
+
     public function execute($ignore = null)
     {
         odbc_execute($this->statement, $this->params);
@@ -60,6 +67,10 @@ class ODBCPdoStatement extends PDOStatement
         $this->params = [];
 
         $records = [];
+
+        if ($mode === \PDO::FETCH_DEFAULT) {
+            $mode = $this->fetchMode;
+        }
 
         switch ($mode) {
             case \PDO::FETCH_CLASS:
@@ -88,12 +99,25 @@ class ODBCPdoStatement extends PDOStatement
 
     public function fetch($option = null, $ignore = null, $ignore2 = null)
     {
-        $rec = odbc_fetch_array($this->statement);
+        $mode = $option === null ? $this->fetchMode : $option;
+
+        $rec = null;
+
+        switch ($mode) {
+            case \PDO::FETCH_OBJ:
+                $rec = odbc_fetch_object($this->statement);
+                break;
+
+            default:
+                $rec = odbc_fetch_array($this->statement);
+        }
 
         if ($rec)
         {
             // odbc_fetch_array has a bounds checking bug with utf8 strings, so we sanitize it:
-            $this->sanitize_array($rec);
+            if (is_array($rec)) {
+                $this->sanitize_array($rec);
+            }
         }
 
         return $rec;
