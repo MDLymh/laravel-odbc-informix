@@ -18,7 +18,7 @@ class ODBCConnection extends Connection
     {
         $schemaGrammar = $this->getConfig('options.grammar.schema');
         if ($schemaGrammar)
-            return new $schemaGrammar;
+            return new $schemaGrammar($this);
         return parent::getDefaultSchemaGrammar();
     }
 
