@@ -29,14 +29,22 @@ class InformixGrammar extends BaseSchemaGrammar
      * @var array
      */
     protected $serials = ['tinyInteger', 'smallInteger', 'mediumInteger', 'integer', 'bigInteger'];
+
+
+
     /**
-     * Compile the query to determine if a table exists.
+     * Compile the query to determine if the given table exists.
      *
+     * @param  string|null  $schema
+     * @param  string  $table
      * @return string
      */
-    public function compileTableExists()
-    {
-        return "select * from systables where tabtype = 'T' and tabname = ?";
+    public function compileTableExists($schema,$table)
+    {   
+        return sprintf(
+            "select 1 from systables where tabtype = 'T' and tabname = %s",
+            $this->quoteString($schema ? $schema.':'.$table : $table)
+        );
     }
 
     /**

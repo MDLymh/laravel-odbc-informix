@@ -69,4 +69,15 @@ class ODBCPdo extends PDO
     {
         odbc_autocommit($this->getConnection(), false);
     }
+
+    /**
+     * Determine if a transaction is currently active.
+     *
+     * @return bool
+     */
+    public function inTransaction(): bool
+    {
+        // When autocommit is disabled a transaction is open
+        return ! odbc_autocommit($this->getConnection());
+    }
 }

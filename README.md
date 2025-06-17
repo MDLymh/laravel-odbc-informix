@@ -15,11 +15,11 @@ It's very simple to configure:
 'odbc-informix-name' => [
     'driver' => 'odbc',
     'dsn' => env('DB_DSN', 'informix'),
-    'database' => env('DB_NAME', 'laravel'),
+    'database' => env('DB_DATABASE', 'laravel'),
     'odbc' => true,
     'host' => env('DB_HOST','127.0.0.1'),
-    'username' => env('DB_USER','informix'),
-    'password' => env('DB_PASS','')
+    'username' => env('DB_USERNAME','informix'),
+    'password' => env('DB_PASSWORD',''),
     'options' => [
         'processor' => MDLymh\Odbc\Informix\Query\Processors\InformixProcessor::class,
         'grammar' => [
